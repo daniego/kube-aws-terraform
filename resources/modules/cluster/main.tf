@@ -80,7 +80,7 @@ resource "aws_iam_role_policy" "instance_pool" {
 # setup ec2 instance profile
 resource "aws_iam_instance_profile" "instance_pool" {
   name = "${var.asg_name}"
-  role = "${aws_iam_role.instance_pool.name}"
+  roles = ["${aws_iam_role.instance_pool.name}"]
   lifecycle { create_before_destroy = true }
 
   # Sleep a little to wait the IAM profile to be ready -
