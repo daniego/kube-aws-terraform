@@ -29,14 +29,11 @@ TF_VAR_artifacts_dir := ${TF_VAR_build_dir}/artifacts
 TF_VAR_secrets_path := ${TF_VAR_artifacts_dir}/secrets
 
 TF_IMAGE := hashicorp/terraform:${TF_VERSION}
-TF_CMD := docker run -i --rm --env-file=${BUILD_DIR}/tf.env \
-		-v=${HOME}/.aws:/root/.aws \
-		-v=${BUILD_DIR}:${TF_VAR_build_dir} \
-		-w=${TF_VAR_build_dir} ${TF_IMAGE}
+TF_CMD := docker run -i --rm --env-file=${BUILD_DIR}/tf.env -v=${HOME}/.aws:/root/.aws -v=${BUILD_DIR}:${TF_VAR_build_dir} -w=${TF_VAR_build_dir} ${TF_IMAGE}
 
 # Terraform max retries and log level
 TF_MAX_RETRIES := 10
-#TF_LOG := debug
+TF_LOG := debug
 
 # Terraform commands
 # Note: for production, set -refresh=true to be safe
@@ -99,9 +96,7 @@ check-profile: ## validate AWS profile
 
 .PHONY: check-route53-zone
 check-route53-zone:  ## validate AWS route53 zone
-	@if ! aws --profile ${AWS_PROFILE} route53 list-hosted-zones --output json | \
-			jq -r --arg ROUTE53_ZONE_NAME "${ROUTE53_ZONE_NAME}" '.HostedZones[] | \
-			select(.Name=="${ROUTE53_ZONE_NAME}.") | .Id ' | grep hostedzone ; then \
+	@if ! aws --profile ${AWS_PROFILE} route53 list-hosted-zones --output json | jq -r --arg ROUTE53_ZONE_NAME "${ROUTE53_ZONE_NAME}" '.HostedZones[] | select(.Name=="${ROUTE53_ZONE_NAME}.") | .Id ' | grep hostedzone ; then \
 		echo "ERROR: "${ROUTE53_ZONE_NAME}" is not setup!"; \
 		exit 1; \
 	fi
