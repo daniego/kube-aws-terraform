@@ -26,9 +26,8 @@ do-config: ## Create kubeconfig for kubectl
 	@rm -rf ${KUBERNETES_WORKDIR}
 	@mkdir -p ${KUBERNETES_WORKDIR}
 	@echo Download vault generated ca cert from the api server
-	@ssh-add ${SSHKEY_DIR}/${CLUSTER_NAME}-master.pem
 	@../scripts/allow-myip.sh -a master 22
-	@set -ex && scp -i ${SSHKEY_DIR}/${CLUSTER_NAME}-master.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+	@scp -i ${SSHKEY_DIR}/${CLUSTER_NAME}-master.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
 		core@${KUBE_API_DNSNAME}:/var/lib/kubernetes/admin.pem \
 		core@${KUBE_API_DNSNAME}:/var/lib/kubernetes/admin-key.pem \
 		core@${KUBE_API_DNSNAME}:/var/lib/kubernetes/kube-apiserver-ca.pem \
