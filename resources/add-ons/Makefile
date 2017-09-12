@@ -86,7 +86,7 @@ ui: dashboard ## kubectl proxy and open dashboard ui
 		sleep 10 ; \
 	done
 	echo "Connecting to ui..."
-	open "http://127.0.0.1:8001/api/v1/namespaces/kube-system/services/kubernetes-dashboard/proxy/#!/workload?namespace=kube-system"
+	open "http://127.0.0.1:8001/api/v1/namespaces/kube-system/services/kubernetes-dashboard/proxy/#!/workload?namespace=kubernetes"
 	echo "Please 'make kill-ui' to close kube proxy connection"
 
 kill-ui:  kill-metrics ## Close Kube console connection
