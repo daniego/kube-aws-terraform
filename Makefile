@@ -94,7 +94,8 @@ plan-destroy-all:	## Generate destroy plan of all resources
 	@$(foreach resource,$(ALL_RESOURCES),cd $(ROOT_DIR)/resources/$(resource) && $(MAKE) destroy-plan 2> /tmp/destroy.err;)
 
 confirm:
-	@echo "CONTINUE? [Y/N]: "; read ANSWER; \
+	@echo "------------------------------------------------------------------------------------------- confirm" ; \
+	echo "CONTINUE? [Y/N]: "; read ANSWER; \
 	if [ ! "$$ANSWER" = "Y" ]; then \
 		echo "Exiting." ; exit 1 ; \
     fi

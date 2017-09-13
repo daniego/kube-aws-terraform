@@ -105,7 +105,7 @@ check-route53-zone:  ## validate AWS route53 zone
 plan: init ## terraform plan
 	@${TF_PLAN}
 apply: init ## terraform apply
-	@${TF_APPLY}
+	@pwd; ${TF_APPLY}
 list: init ## terraform list
 	@${TF_LIST}
 show: init ## terraform show
@@ -122,6 +122,7 @@ show-destroy-plan: ## show resources planed to be destroyed
 
 .PHONY: destroy
 destroy: init ## terraform destroy
+	@echo "------------------------------------------------------------------------------------------- common - destroy" ; \
 	@echo Destroy ${MODULE}...
 	@${TF_DESTROY}
 	$(MAKE) clean
